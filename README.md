@@ -2,7 +2,9 @@
 BEnchmarking Africa NLP, A framework for easy evaluation of language models on several Africa NLP datasets
 
 
-### Print all datasets
+### List all datasets
+
+You can list all the available datasets by specifying a particular task or language; see below for example
 
 ```python3
 from bean.datasets.list_datasets import list_datasets
