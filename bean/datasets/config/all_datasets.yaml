@@ -1,0 +1,41 @@
+text_classification:
+  # Swahili News Dataset
+  - name: swahili_news
+    languages_covered:
+      - swahili
+    available_on_huggingface: true
+    dataset_link: https://huggingface.co/datasets/swahili_news
+
+
+ner:
+  # Masakhaner Version 1
+  - name: masakhaner
+    languages_covered:
+      - amharic
+      - hausa
+      - igbo
+      - ganda
+      - luo
+      - pidgin
+      - kinyarwanda
+      - swahili
+      - wolof
+      - yoruba
+    available_on_huggingface: true
+    dataset_link: https://huggingface.co/datasets/masakhaner
+  # Masakhaner Version 2
+  - name: masakhaner2
+    languages_covered:
+      - amharic
+      - hausa
+      - igbo
+      - ganda
+      - luo
+      - pidgin
+      - kinyarwanda
+      - swahili
+      - wolof
+      - yoruba
+    available_on_huggingface: true
+    dataset_link: https://huggingface.co/datasets/masakhane/masakhaner2
+

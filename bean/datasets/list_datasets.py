@@ -1,14 +1,16 @@
-import json
+import yaml
 from typing import List, Any
 
-DATASETS_LIST = "bean/datasets/config/all_datasets.json"
+DATASETS_LIST = "bean/datasets/config/all_datasets.yaml"
 
 def list_datasets(task: str = None, language: str=None) -> Any:
-    with open(DATASETS_LIST) as f:
-        data_dict = json.load(f)
+    data_dict = yaml.safe_load(open(DATASETS_LIST))
 
     if task:
         assert task in data_dict.keys(), f"The specified task ({task}) does not exist"
         return data_dict[task]
 
     if language:
+        assert task, f"You need to specify a task for language {language}"
+        return [dataset for dataset in data_dict[task] if language in dataset["languages_covered"]]
+
