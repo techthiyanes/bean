@@ -1,1 +1,2 @@
 from .list_datasets import list_datasets
+from .classification_dataloader import TextClassificationLoader

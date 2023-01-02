@@ -1,13 +1,8 @@
 import os
 import logging
-import requests
-from typing import Dict, Tuple
-from collections import defaultdict
-
-from base_loader import BaseLoader
-
-from huggingface_hub import get_full_repo_name
 from datasets import load_dataset, Value, Features
+
+from bean.datasets.base_loader import BaseLoader
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +36,7 @@ class TextClassificationLoader(BaseLoader):
                 test_dataset = load_dataset("csv", data_files=[self.test_file])
                 dev_dataset = load_dataset("csv", data_files=[self.dev_file])
         else:
-            available_splits = self._check_available_splits(self.dataset_name)
+            available_splits = self._check_available_splits()
             if 'train' in available_splits:
                 train_dataset = load_dataset(self.dataset_name, split='train')
 
@@ -59,3 +54,4 @@ class TextClassificationLoader(BaseLoader):
 if __name__ == "__main__":
     loader = TextClassificationLoader(dataset_name="swahili_news")
     print(loader.load_data())
+    print(loader.get_dataset_metadata(task="text_classification"))

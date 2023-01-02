@@ -3,8 +3,10 @@ text_classification:
   - name: swahili_news
     languages_covered:
       - swahili
+    num_labels: 6
     available_on_huggingface: true
     dataset_link: https://huggingface.co/datasets/swahili_news
+    label2id: {kitaifa: 1, michezo: 2, kimataifa: 3, burudani: 4, afya: 5}
 
 
 ner:

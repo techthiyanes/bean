@@ -1,10 +1,10 @@
 import yaml
 from typing import List, Any
 
-DATASETS_LIST = "bean/datasets/config/all_datasets.yaml"
+DATASET_CONFIG = "bean/datasets/config/all_datasets.yaml"
 
 def list_datasets(task: str = None, language: str=None) -> Any:
-    data_dict = yaml.safe_load(open(DATASETS_LIST))
+    data_dict = yaml.safe_load(open(DATASET_CONFIG))
 
     if task:
         assert task in data_dict.keys(), f"The specified task ({task}) does not exist"
