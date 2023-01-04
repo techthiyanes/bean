@@ -55,20 +55,24 @@ class TextClassificationEvaluate(BaseEvaluate):
         """
         self.model.eval()
         samples_seen = 0
-
+        pred_list, reference_list = [], []
         for step, batch in tqdm(enumerate(data_loader), total=len(data_loader)):
             with torch.no_grad():
                 outputs = self.model(**batch)
-        predictions = outputs.logits.argmax(dim=-1)
-        predictions, references = self.accelerator.gather((predictions, batch["labels"]))
-        if self.accelerator.num_processes > 1:
-            if step == len(data_loader) - 1:
-                predictions = predictions[: len(data_loader.dataset) - samples_seen]
-                references = references[: len(data_loader.dataset) - samples_seen]
-            else:
-                samples_seen += references.shape[0]
+            predictions = outputs.logits.argmax(dim=-1)
+            predictions, references = self.accelerator.gather((predictions, batch["labels"]))
+            if self.accelerator.num_processes > 1:
+                if step == len(data_loader) - 1:
+                    predictions = predictions[: len(data_loader.dataset) - samples_seen]
+                    references = references[: len(data_loader.dataset) - samples_seen]
+                else:
+                    samples_seen += references.shape[0]
+            pred_list.extend(predictions.tolist())
+            reference_list.extend(references.tolist())
 
-        return predictions, references
+        assert len(pred_list) == len(reference_list)
+
+        return pred_list, reference_list
 
     def _load_metrics(self) -> List:
         """

@@ -7,6 +7,9 @@ yoruba_bbc_topics = TextClassificationLoader(dataset_name="yoruba_bbc_topics")
 train_dataset, dev_dataset, test_dataset = yoruba_bbc_topics.load_data()
 
 print(dev_dataset)
+print(train_dataset)
+print(test_dataset)
+
 """
 Dataset({
     features: ['news_title', 'label', 'date', 'bbc_url_id'],
