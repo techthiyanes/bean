@@ -25,7 +25,7 @@ print(list_datasets(task='text_classification'))
 
 | Dataset     | Website | Paper    | Public | Split | Download Link| languages |
 | :---        |    :----:   |          ---: |  ---: |  ---: |  ---: | ---: |
-| hausa_voa_topics      | -   | -   | Yes | `train` `dev` `test` | [link](https://huggingface.co/datasets/hausa_voa_topics | `ha` |
+| hausa_voa_topics      | -   | -   | Yes | `train` `dev` `test` | [link](https://huggingface.co/datasets/hausa_voa_topics) | `ha` |
 
 | Dataset     | Website | Paper    | Public | Split | Download Link| languages |
 | :---        |    :----:   |          ---: |  ---: |  ---: |  ---: | ---: |
