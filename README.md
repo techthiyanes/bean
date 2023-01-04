@@ -21,21 +21,12 @@ print(list_datasets(task='text_classification'))
 
 | Dataset     | Website | Paper    | Public | Split | Download Link| languages |
 | :---        |    :----:   |          ---: |  ---: |  ---: |  ---: | ---: |
-| swahili_news      | [website](https://doi.org/10.5281/zenodo.5514203)       | -   | Yes | `train` `dev` | [link](https://huggingface.co/datasets/swahili_news) | `sw` |
+| swahili_news                  | [website](https://doi.org/10.5281/zenodo.5514203)       | -   | Yes | `train` `dev` | [link](https://huggingface.co/datasets/swahili_news) | `sw` |
+| hausa_voa_topics              | -   | -   | Yes | `train` `dev` `test` | [link](https://huggingface.co/datasets/hausa_voa_topics) | `ha` |
+| yoruba_bbc_topics             | -   | -   | Yes | `train` `dev` `test` | [link](https://huggingface.co/datasets/yoruba_bbc_topics) | `yo` |
+| Davis/Swahili-tweet-sentiment | [website](https://github.com/Davisy/Swahili-Tweet-Sentiment-Analysis-App)       | -   | Yes | | [link](https://huggingface.co/datasets/Davis/Swahili-tweet-sentiment) | `sw` |
+| Iyanuoluwa/YOSM               | [website](https://github.com/IyanuSh/YOSM)       | [paper](https://arxiv.org/abs/2204.09711)   | Yes | `train` `dev` `test` | [link](https://huggingface.co/datasets/Iyanuoluwa/YOSM) | `yo` |
 
-| Dataset     | Website | Paper    | Public | Split | Download Link| languages |
-| :---        |    :----:   |          ---: |  ---: |  ---: |  ---: | ---: |
-| hausa_voa_topics      | -   | -   | Yes | `train` `dev` `test` | [link](https://huggingface.co/datasets/hausa_voa_topics) | `ha` |
 
-| Dataset     | Website | Paper    | Public | Split | Download Link| languages |
-| :---        |    :----:   |          ---: |  ---: |  ---: |  ---: | ---: |
-| yoruba_bbc_topics      | -   | -   | Yes | `train` `dev` `test` | [link](https://huggingface.co/datasets/yoruba_bbc_topics) | `yo` |
 
-| Dataset     | Website | Paper    | Public | Split | Download Link| languages |
-| :---        |    :----:   |          ---: |  ---: |  ---: |  ---: | ---: |
-| Davis/Swahili-tweet-sentiment      | [website](https://github.com/Davisy/Swahili-Tweet-Sentiment-Analysis-App)       | -   | Yes | | [link](https://huggingface.co/datasets/Davis/Swahili-tweet-sentiment) | `sw` |
-
-| Dataset     | Website | Paper    | Public | Split | Download Link| languages |
-| :---        |    :----:   |          ---: |  ---: |  ---: |  ---: | ---: |
-| Iyanuoluwa/YOSM      | [website](https://github.com/IyanuSh/YOSM)       | [paper](https://arxiv.org/abs/2204.09711)   | Yes | `train` `dev` `test` | [link](https://huggingface.co/datasets/Iyanuoluwa/YOSM) | `yo` |
 
