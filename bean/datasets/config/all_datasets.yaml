@@ -19,6 +19,9 @@ text_classification:
     available_on_huggingface: true
     dataset_link: https://huggingface.co/datasets/hausa_voa_topics
     label2id: {Africa: 0, Health: 1, Nigeria: 2, Politics: 3, World: 4}
+    text_feature_name: news_title
+    label_feature_name: label
+    label_mapped: true
     
    # Yoruba BBC Topics
   - name: yoruba_bbc_topics
@@ -37,9 +40,12 @@ text_classification:
   - name: swahili-tweet-sentiment
     languages_covered:
       - Swahili
-    num_labels: 3 #0,1,-1
+    num_labels: 3
     available_on_huggingface: true
     dataset_link: https://huggingface.co/datasets/Davis/Swahili-tweet-sentiment
+    text_feature_name: news_title
+    label_feature_name: label
+    label_mapped: true
     
   # Yoruba Movie Reviews
   - name: yosm
