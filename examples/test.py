@@ -21,9 +21,8 @@ dataset_config = yoruba_bbc_topics.get_dataset_metadata(task="text_classificatio
 
 
 print(dataset_config)
-"""
-{'name': 'yoruba_bbc_topics', 'languages_covered': ['Yoruba'], 'num_labels': 7, 'available_on_huggingface': True, 'dataset_link': 'https://huggingface.co/datasets/yoruba_bbc_topics', 'label2id': {'africa': 0, 'entertainment': 1, 'health': 2, 'nigeria': 3, 'politics': 4, 'sport': 5, 'world': 6}, 'text_feature_name': 'news_title', 'label_feature_name': 'label', 'label_mapped': True}
-"""
+
+
 model_class = AutoModel(model_name_or_path="Davlan/afro-xlmr-small", tokenizer_name="Davlan/afro-xlmr-small" )
 model, tokenizer = model_class.classification_model(num_labels=dataset_config['num_labels'], label2id=dataset_config['label2id'])
 
@@ -39,5 +38,23 @@ text_classification_configs={
     'label_mapped': dataset_config['label_mapped']
 }
 evaluator = TextClassificationEvaluate(model=model,tokenizer=tokenizer, **text_classification_configs)
-scores = evaluator.evaluate(dev_dataset)
-print(scores)
+# scores = evaluator.evaluate(dev_dataset)
+# print(scores)
+
+finetune_configs = {
+    'num_train_epochs': 3,
+    'learning_rate': 1e-5,
+    'warmup_steps': 0,
+    'weight_decay': 0.01,
+    'gradient_accumulation_steps': 1,
+    'adam_epsilon': 1e-8,
+    'max_grad_norm': 1.0,
+    'logging_steps': 100,
+    'save_steps': 100,
+    'train_batch_size': 64,
+    'gradient_accumulation_steps': 1,
+    'lr_scheduler_type': 'linear',
+    'num_warmup_steps': 0,
+}
+
+scores = evaluator.finetune_evaluate(train_dataset=train_dataset, eval_dataset=test_dataset, config=finetune_configs)
