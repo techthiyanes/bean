@@ -40,6 +40,14 @@ class TextClassificationEvaluate(BaseEvaluate):
         self.accelerator = self._initialize_accelerator()
         self.metrics = self._load_metrics()
 
+    
+    def finetune_evaluate(self, train_dataset: Dataset, eval_dataset: Dataset, config: dict):
+        """
+        Finetune the model on train dataset and evaluate on eval dataset
+        """
+        self._finetune(train_dataset, config)
+        return self.evaluate(eval_dataset)
+
     def evaluate(self, eval_dataset: Dataset):
         """
 
@@ -78,13 +86,6 @@ class TextClassificationEvaluate(BaseEvaluate):
         assert len(pred_list) == len(reference_list)
 
         return pred_list, reference_list
-    
-    def finetune_evaluate(self, train_dataset: Dataset, eval_dataset: Dataset, config: dict):
-        """
-        Finetune the model on train dataset and evaluate on eval dataset
-        """
-        self._finetune(train_dataset, config)
-        return self.evaluate(eval_dataset)
 
     def _finetune(self, train_dataset: Dataset, config: dict):
         tokenized_dataset = self.process_dataset_split(train_dataset)

@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 
 setup(
     name="bean",
-    version="0.0.0",
+    version="0.0.1",
     author="Ogundepo Odunayo",
     author_email="oogundep@uwaterloo.ca",
     description="BEnchmarking Africa NLP (BeAN 🫘), A framework for easy evaluation of language models on several Africa NLP datasets",
