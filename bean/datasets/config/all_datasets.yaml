@@ -6,7 +6,10 @@ text_classification:
     num_labels: 6
     available_on_huggingface: true
     dataset_link: https://huggingface.co/datasets/swahili_news
-    label2id: {kitaifa: 1, michezo: 2, kimataifa: 3, burudani: 4, afya: 5}
+    label2id: {utumi: 0, kitaifa: 1, michezo: 2, kimataifa: 3, burudani: 4, afya: 5}
+    text_feature_name: text
+    label_feature_name: label
+    label_mapped: true
    
    # Hausa VOA Topics
   - name: hausa_voa_topics
@@ -16,6 +19,9 @@ text_classification:
     available_on_huggingface: true
     dataset_link: https://huggingface.co/datasets/hausa_voa_topics
     label2id: {Africa: 0, Health: 1, Nigeria: 2, Politics: 3, World: 4}
+    text_feature_name: news_title
+    label_feature_name: label
+    label_mapped: true
     
    # Yoruba BBC Topics
   - name: yoruba_bbc_topics
@@ -25,18 +31,24 @@ text_classification:
     available_on_huggingface: true
     dataset_link: https://huggingface.co/datasets/yoruba_bbc_topics
     label2id: {africa: 0, entertainment: 1, health: 2, nigeria: 3, politics: 4, sport: 5, world: 6}
+    text_feature_name: news_title
+    label_feature_name: label
+    label_mapped: true
 
 
  # Swahili Tweet Sentiment
-  - name: Davis/Swahili-tweet-sentiment
+  - name: swahili-tweet-sentiment
     languages_covered:
       - Swahili
-    num_labels: 3 #0,1,-1
+    num_labels: 3
     available_on_huggingface: true
     dataset_link: https://huggingface.co/datasets/Davis/Swahili-tweet-sentiment
+    text_feature_name: news_title
+    label_feature_name: label
+    label_mapped: true
     
   # Yoruba Movie Reviews
-  - name: Iyanuoluwa/YOSM
+  - name: yosm
     languages_covered:
       - Yoruba
     num_labels: 2 #positive, negative
