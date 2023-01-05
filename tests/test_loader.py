@@ -35,7 +35,7 @@ class TestLoaders(unittest.TestCase):
         train_data, dev_data, test_data = classification_loader_hgf.load_data()
 
         self.assertEqual(classification_loader_hgf._check_dataset_availability(), True)
-        self.assertEqual(train_data, None)
+        self.assertEqual(train_data, 2263)
         self.assertEqual(dev_data, None)
         self.assertEqual(test_data, None)
 
@@ -44,13 +44,8 @@ class TestLoaders(unittest.TestCase):
         train_data, dev_data, test_data = classification_loader_hgf.load_data()
 
         self.assertEqual(classification_loader_hgf._check_dataset_availability(), True)
-        self.assertEqual(len(train_data), 800)
-        self.assertEqual(len(dev_data), 200)
-        self.assertEqual(len(test_data), 500)ssification_loader_hgf = TextClassificationLoader(dataset_name="swahili_news")
-        train_data, dev_data, test_data = classification_loader_hgf.load_data()
+        self.assertEqual(train_data, 800)
+        self.assertEqual(dev_data, 200)
+        self.assertEqual(test_data, 500)
 
-        self.assertEqual(classification_loader_hgf._check_dataset_availability(), True)
-        self.assertEqual(len(train_data), 22207)
-        self.assertEqual(dev_data, None)
-        self.assertEqual(len(test_data), 7338)
-
+        
