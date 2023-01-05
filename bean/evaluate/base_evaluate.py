@@ -15,3 +15,7 @@ class BaseEvaluate:
     @abstractmethod
     def evaluate(self):
         pass
+
+    @abstractmethod
+    def inference(self):
+        pass

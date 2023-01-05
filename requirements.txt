@@ -1,2 +1,5 @@
 datasets==2.8.0
 sentencepiece==0.1.97
+torch==1.13.1
+evaluate==0.4.0
+accelerate==0.15.0
