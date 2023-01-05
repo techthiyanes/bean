@@ -3,8 +3,8 @@ from bean.models import AutoModel
 from bean.evaluate import TextClassificationEvaluate
 
 
-yoruba_bbc_topics = TextClassificationLoader(dataset_name="yoruba_bbc_topics")
-train_dataset, dev_dataset, test_dataset = yoruba_bbc_topics.load_data()
+swahili_news = TextClassificationLoader(dataset_name="swahili_news")
+train_dataset, dev_dataset, test_dataset = swahili_news.load_data()
 
 print(dev_dataset)
 print(train_dataset)
@@ -17,7 +17,7 @@ Dataset({
 })
 
 """
-dataset_config = yoruba_bbc_topics.get_dataset_metadata(task="text_classification")
+dataset_config = swahili_news.get_dataset_metadata(task="text_classification")
 
 
 print(dataset_config)
@@ -35,7 +35,8 @@ evaluation_configs={
     'batch_size': 64,
     'padding': 'max_length',
     'pad_to_max_length': True,
-    'label_mapped': dataset_config['label_mapped']
+    'label_mapped': dataset_config['label_mapped'],
+    'output_dir': "models/afroxlmr-base"
 }
 evaluator = TextClassificationEvaluate(model=model,tokenizer=tokenizer, **evaluation_configs)
 
@@ -49,12 +50,13 @@ finetune_configs = {
     'adam_epsilon': 1e-8,
     'max_grad_norm': 1.0,
     'logging_steps': 100,
-    'checkpointing_steps': '100',
+    'checkpointing_steps': '1000',
     'train_batch_size': 64,
     'lr_scheduler_type': 'linear',
     'num_warmup_steps': 0,
-    'output_dir': "models/afroxlmr-small",
-    'seed': 0
+    'output_dir': "models/afroxlmr-base",
+    'seed': 0,
+    'with_tracking': True
 }
 
 scores = evaluator.finetune_evaluate(train_dataset=train_dataset, eval_dataset=test_dataset, config=finetune_configs)

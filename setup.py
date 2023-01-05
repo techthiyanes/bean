@@ -1,4 +1,3 @@
-import setuptools
 from setuptools import find_packages, setup
 
 with open('requirements.txt') as f:
@@ -13,10 +12,13 @@ setup(
     packages=find_packages(),
     url="",
     install_requires=requirements,
+    package_data={"bean": [
+        "datasets/config/*.yaml",
+     ]},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.8',
+    python_requires='>=3.7',
 )

@@ -152,6 +152,8 @@ class TextClassificationEvaluate(BaseEvaluate):
 
         for epoch in range(starting_epoch, config["num_train_epochs"]):
             self.model.train()
+            if config["with_tracking"]:
+                total_loss = 0
             for step, batch in enumerate(train_dataloader):
                 # We need to skip steps until we reach the resumed step
                 if config.get("resume_from_checkpoint", None) and epoch == starting_epoch:
@@ -161,8 +163,8 @@ class TextClassificationEvaluate(BaseEvaluate):
                 outputs = self.model(**batch)
                 loss = outputs.loss
                 # We keep track of the loss at each epoch
-                # if args.with_tracking:
-                #     total_loss += loss.detach().float()
+                if config["with_tracking"]:
+                    total_loss += loss.detach().float()
                 loss = loss / config["gradient_accumulation_steps"]
                 self.accelerator.backward(loss)
                 if step % config["gradient_accumulation_steps"] == 0 or step == len(train_dataloader) - 1:
@@ -181,6 +183,8 @@ class TextClassificationEvaluate(BaseEvaluate):
 
                 if completed_steps >= config['max_train_steps']:
                     break
+            
+            logger.info(f"Loss after epoch: {epoch} is {total_loss/len(train_dataloader)}")
 
 
     def _load_metrics(self) -> List:
@@ -252,7 +256,7 @@ class TextClassificationEvaluate(BaseEvaluate):
         """
         Initialize accelerator; used for managing device placement for easy distribution
         """
-        accelerator = Accelerator()
+        accelerator = Accelerator(logging_dir=self.output_dir) if self.output_dir else Accelerator()
         return accelerator
     
     def _create_optimizer(self, config: dict):

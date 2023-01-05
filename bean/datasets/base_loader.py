@@ -1,7 +1,8 @@
 import yaml
 import requests
+from os import path
 
-DATASET_CONFIG = "bean/datasets/config/all_datasets.yaml"
+DATASET_CONFIG = path.join(path.dirname(__file__), 'config/all_datasets.yaml')
 
 class BaseLoader:
     def __init__(self, dataset_name: str):

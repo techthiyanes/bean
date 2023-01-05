@@ -1,7 +1,7 @@
 import yaml
 from typing import List, Any
 
-DATASET_CONFIG = "bean/datasets/config/all_datasets.yaml"
+DATASET_CONFIG = "datasets/config/all_datasets.yaml"
 
 def list_datasets(task: str = None, language: str=None) -> Any:
     data_dict = yaml.safe_load(open(DATASET_CONFIG))
