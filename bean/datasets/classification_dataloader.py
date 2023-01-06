@@ -1,9 +1,16 @@
 import os
 import logging
+from datasets import Dataset
+from typing import List, Dict, Union, Optional, Tuple
 from datasets import load_dataset, Value, Features
 
 from bean.datasets.base_loader import BaseLoader
 
+logging.basicConfig(
+    format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
+    datefmt="%m/%d/%Y %H:%M:%S",
+    level=logging.INFO,
+)
 logger = logging.getLogger(__name__)
 
 
@@ -15,9 +22,12 @@ class TextClassificationLoader(BaseLoader):
         self.test_file =  test_file
         self.dev_file =  dev_file
 
-    def load_data(self):
+    def load_data(self, lang: str=None ) -> Tuple[Dataset, Dataset, Dataset]:
         """
-        Load the dataset
+        Load the dataset from the specified source
+        input: lang (str) - the language of the dataset
+        returns: 
+            train_dataset, dev_dataset, test_dataset
         """
         train_dataset, dev_dataset, test_dataset = None, None, None
 
@@ -38,20 +48,14 @@ class TextClassificationLoader(BaseLoader):
         else:
             available_splits = self._check_available_splits()
             if 'train' in available_splits:
-                train_dataset = load_dataset(self.dataset_name, split='train')
+                train_dataset = load_dataset(self.dataset_name, lang, split='train') if lang else load_dataset(self.dataset_name, split='train')
 
             if 'test' in available_splits:
-                test_dataset = load_dataset(self.dataset_name, split='test')
+                test_dataset = load_dataset(self.dataset_name, lang, split='test') if lang else load_dataset(self.dataset_name, split='test')
 
             if 'dev' in available_splits:
-                dev_dataset = load_dataset(self.dataset_name, split='dev')
+                dev_dataset = load_dataset(self.dataset_name, lang, split='dev') if lang else load_dataset(self.dataset_name, split='dev')
             elif 'validation' in available_splits:
-                dev_dataset = load_dataset(self.dataset_name, split='validation')
+                dev_dataset = load_dataset(self.dataset_name, lang, split='validation') if lang else load_dataset(self.dataset_name, split='validation')
 
         return train_dataset, dev_dataset, test_dataset
-
-
-if __name__ == "__main__":
-    loader = TextClassificationLoader(dataset_name="swahili_news")
-    print(loader.load_data())
-    print(loader.get_dataset_metadata(task="text_classification"))

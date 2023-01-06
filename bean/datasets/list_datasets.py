@@ -4,6 +4,13 @@ from typing import List, Any
 DATASET_CONFIG = "datasets/config/all_datasets.yaml"
 
 def list_datasets(task: str = None, language: str=None) -> Any:
+    """
+    List all the available datasets
+    input: task (str) - the task the dataset is used for,
+              language (str) - the dataset language
+    returns: 
+        list - the list of available datasets
+    """
     data_dict = yaml.safe_load(open(DATASET_CONFIG))
 
     if task:

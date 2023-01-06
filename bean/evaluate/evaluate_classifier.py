@@ -43,14 +43,20 @@ class TextClassificationEvaluate(BaseEvaluate):
     
     def finetune_evaluate(self, train_dataset: Dataset, eval_dataset: Dataset, config: dict):
         """
-        Finetune the model on train dataset and evaluate on eval dataset
+        Finetune the model on the train dataset and evaluate on the eval dataset
+        input: train_dataset (Dataset) - the train dataset
+                eval_dataset (Dataset) - the eval dataset
+                config (dict) - the configuration for training
+        returns: metrics (dict) - the evaluation metrics
         """
         self._finetune(train_dataset, config)
         return self.evaluate(eval_dataset)
 
     def evaluate(self, eval_dataset: Dataset):
         """
-
+        Evaluate the model on the eval dataset
+        input: eval_dataset (Dataset) - the eval dataset
+        returns: metrics (dict) - the evaluation metrics
         """
         tokenized_dataset = self.process_dataset_split(eval_dataset)
         dataloader = self._create_dataloader(tokenized_dataset)
@@ -63,7 +69,10 @@ class TextClassificationEvaluate(BaseEvaluate):
 
     def inference(self, data_loader: DataLoader):
         """
-        Generate prediction and ground-truth target pair from eval dataloader
+        Run inference on the model
+        input: data_loader (DataLoader) - the dataloader for the dataset
+        returns: predictions (List) - the predictions
+                references (List) - the references
         """
         self.model, data_loader = self.accelerator.prepare(self.model, data_loader)
         self.model.eval()
@@ -88,6 +97,11 @@ class TextClassificationEvaluate(BaseEvaluate):
         return pred_list, reference_list
 
     def _finetune(self, train_dataset: Dataset, config: dict):
+        """
+        Finetune the model on the train dataset
+        input: train_dataset (Dataset) - the train dataset
+                config (dict) - the configuration for training
+        """
         tokenized_dataset = self.process_dataset_split(train_dataset)
         train_dataloader = self._create_dataloader(tokenized_dataset)
         optimizer = self._create_optimizer(config)
@@ -189,7 +203,9 @@ class TextClassificationEvaluate(BaseEvaluate):
 
     def _load_metrics(self) -> List:
         """
-        load metrics for evaluation
+        Load the metrics
+        returns:
+        metrics: List ==> List of metrics
         """
         metrics = [evaluate.load(metric, average='weighted') for metric in text_classification_metrics]
         return metrics
@@ -235,12 +251,11 @@ class TextClassificationEvaluate(BaseEvaluate):
 
     def _tokenize_dataset(self, examples: Dataset) -> Dataset:
         """
-        This function tokenizes the raw datasets and maps the target feature to ids
-        examples: Datasets ==> raw text dataset
+        This function tokenizes the dataset
+        examples: Dataset ==> raw dataset
         returns:
-        result: Datasets ==>  tokenized dataset
+        result: Dataset ==> tokenized dataset
         """
-        # Tokenize the texts
         texts = ((examples[self.text_feature_name],))
         result = self.tokenizer(*texts, padding=self.padding, max_length=self.max_length, truncation=self.truncation)
 
@@ -254,14 +269,20 @@ class TextClassificationEvaluate(BaseEvaluate):
 
     def _initialize_accelerator(self) -> Accelerator:
         """
-        Initialize accelerator; used for managing device placement for easy distribution
+        Initialize accelerator
+        returns:
+        accelerator: Accelerator ==> accelerator
         """
         accelerator = Accelerator(logging_dir=self.output_dir) if self.output_dir else Accelerator()
         return accelerator
     
     def _create_optimizer(self, config: dict):
-        # Optimizer
-        # Split weights in two groups, one with weight decay and the other not.
+        """
+        Create optimizer
+        config: dict ==> configuration dictionary
+        returns:
+        optimizer: torch.optim.Optimizer ==> optimizer
+        """
         no_decay = ["bias", "LayerNorm.weight"]
         optimizer_grouped_parameters = [
             {
@@ -279,7 +300,15 @@ class TextClassificationEvaluate(BaseEvaluate):
 
         
     def _get_linear_schedule_with_warmup(self, optimizer: torch.optim.Optimizer, num_training_steps: int, config: dict):
-        # Scheduler
+        """
+        Create a scheduler with a learning rate that decreases after increasing during a warmup period.
+        inputs:
+        optimizer: torch.optim.Optimizer ==> optimizer
+        num_training_steps: int ==> number of training steps
+        config: dict ==> config parameters
+        returns:
+        lr_scheduler: torch.optim.lr_scheduler ==> scheduler
+        """
         lr_scheduler = get_scheduler(
             name=config["lr_scheduler_type"],
             optimizer=optimizer,
@@ -291,21 +320,10 @@ class TextClassificationEvaluate(BaseEvaluate):
     
     def _validate_config(self, config: dict):
         """
-        Validate config parameters
+        Validate the configuration parameters
+        config: dict ==> configuration parameters
+        returns:
+        config: dict ==> validated configuration parameters
         """
-        # Validate config parameters
-        if config["batch_size"] % config["gradient_accumulation_steps"] != 0:
-            raise ValueError(
-                f"The `batch_size` ({config['batch_size']}) must be a multiple of `gradient_accumulation_steps` ({config['gradient_accumulation_steps']})"
-            )
-        if config["max_train_steps"] is None:
-            config["max_train_steps"] = (
-                len(self.train_dataset) // (config["batch_size"] * config["gradient_accumulation_steps"]) * config["num_train_epochs"]
-            )
-        else:
-            config["num_train_epochs"] = config["max_train_steps"] // (
-                len(self.train_dataset) // (config["batch_size"] * config["gradient_accumulation_steps"])
-            )
-        config["max_train_steps"] = config["max_train_steps"] // config["gradient_accumulation_steps"]
         return config
     
